@@ -3,21 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resgate seu Brinde </title>
+    <title>🌿 Resgate seu Brinde - Feira Sustentável</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <div class="natureza-borda"></div>
+
     <div class="container">
-        <img src="https://renanheriky.github.io/Juqui-explorer/imagens/juka.png" alt="Mascote Juka">
-        <h1>Resgate seu Brinde!</h1>
-        <p>Obrigado por visitar nosso stand da Feira.<br>Digite seu nome para validar o resgate:</p>
+        <h1>🌱 Resgate seu Brinde!</h1>
+        <p>Participe da nossa feira sustentável e garanta o seu presente!</p>
+        <p>Brindes restantes: <span id="contador">50</span></p>
         <input type="text" id="nome" placeholder="Digite seu nome...">
-        <br>
-        <button onclick="resgatar()">Resgatar meu brinde</button>
+        <button onclick="resgatar()">Resgatar meu Brinde</button>
         <p id="mensagem"></p>
+
+        <h2>Aponte a câmera para resgatar:</h2>
+        <canvas id="qrCanvas"></canvas>
     </div>
 
+    <!-- Som de vitória -->
+    <audio id="somVitoria" src="som.mp3"></audio>
+
+    <!-- Área de Confetes -->
+    <canvas id="confete"></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
