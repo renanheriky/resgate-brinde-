@@ -1,81 +1,52 @@
-document.addEventListener('DOMContentLoaded', () => {
-    criarFolhas();
-});
-
 function resgatar() {
-    const nome = document.getElementById('nome').value.trim();
-    const msg = document.getElementById('mensagem');
-    const som = document.getElementById('somVitoria');
-
-    if (nome === "") {
-        msg.style.display = 'block';
-        msg.innerHTML = "⚠️ Por favor, digite seu nome para continuar.";
-        return;
-    }
-
-    msg.style.display = 'block';
-    msg.innerHTML = `🎉 Obrigado, <strong>${nome}</strong>! Seu brinde está garantido!`;
-
-    som.play();
-    dispararConfete();
+    iniciarConfete();
 }
 
-// Efeito de Confete
-function dispararConfete() {
+let confetes = [];
+let animando = false;
+
+function iniciarConfete() {
     const canvas = document.getElementById('confete');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    let confetes = [];
-
-    for (let i = 0; i < 120; i++) {
+    confetes = [];
+    for (let i = 0; i < 100; i++) {
         confetes.push({
             x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height - canvas.height,
-            r: Math.random() * 6 + 4,
-            d: Math.random() * 10 + 5,
-            color: `hsl(${Math.random() * 360}, 70%, 50%)`,
-            tilt: Math.random() * 10 - 5
+            y: Math.random() * -canvas.height,
+            r: Math.random() * 5 + 2,
+            color: gerarCorVerde(),
+            speed: Math.random() * 3 + 2
         });
     }
 
-    function desenhar() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        confetes.forEach(c => {
-            ctx.beginPath();
-            ctx.lineWidth = c.r;
-            ctx.strokeStyle = c.color;
-            ctx.moveTo(c.x + c.tilt, c.y);
-            ctx.lineTo(c.x, c.y + c.tilt + c.d);
-            ctx.stroke();
-        });
-        atualizar();
+    if (!animando) {
+        animando = true;
+        animarConfete(ctx, canvas);
     }
-
-    function atualizar() {
-        confetes.forEach(c => {
-            c.y += Math.cos(c.d) + 1 + c.r / 2;
-            c.x += Math.sin(c.d);
-            if (c.y > canvas.height) {
-                c.x = Math.random() * canvas.width;
-                c.y = -10;
-            }
-        });
-    }
-
-    let animacao = setInterval(desenhar, 20);
-    setTimeout(() => clearInterval(animacao), 3000);
 }
 
-// Folhas caindo
-function criarFolhas() {
-    for (let i = 0; i < 15; i++) {
-        const folha = document.createElement('img');
-        folha.src = 'folha.png';
-        folha.classList.add('leaf');
-        folha.style.left = `${Math.random() * 100}vw`;
-        folha.style.animationDuration = `${4 + Math.random() * 3}s`;
-        document.body.appendChild(folha);
-    }
+function gerarCorVerde() {
+    const tonsVerde = [
+        '#aed581', '#9ccc65', '#8bc34a', '#7cb342', '#689f38'
+    ];
+    return tonsVerde[Math.floor(Math.random() * tonsVerde.length)];
+}
+
+function animarConfete(ctx, canvas) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    confetes.forEach(c => {
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+        ctx.fillStyle = c.color;
+        ctx.fill();
+        c.y += c.speed;
+        if (c.y > canvas.height) {
+            c.y = 0;
+            c.x = Math.random() * canvas.width;
+        }
+    });
+    requestAnimationFrame(() => animarConfete(ctx, canvas));
 }
