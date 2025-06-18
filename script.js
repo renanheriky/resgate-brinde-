@@ -1,4 +1,13 @@
 function resgatar() {
+    const nome = document.getElementById('nome').value.trim();
+    const mensagem = document.getElementById('mensagem');
+
+    if (nome === "") {
+        mensagem.textContent = "Por favor, digite seu nome para resgatar o brinde.";
+        return;
+    }
+
+    mensagem.textContent = ""; // Limpa a mensagem se estava preenchida antes
     iniciarConfete();
 }
 
@@ -29,9 +38,7 @@ function iniciarConfete() {
 }
 
 function gerarCorVerde() {
-    const tonsVerde = [
-        '#aed581', '#9ccc65', '#8bc34a', '#7cb342', '#689f38'
-    ];
+    const tonsVerde = ['#aed581', '#9ccc65', '#8bc34a', '#7cb342', '#689f38'];
     return tonsVerde[Math.floor(Math.random() * tonsVerde.length)];
 }
 
