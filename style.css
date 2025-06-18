@@ -1,54 +1,52 @@
 body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #cfe8d5, #ffffff);
     margin: 0;
     padding: 0;
-    background: linear-gradient(to bottom, #dcedc8, #a5d6a7);
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-}
-
-.resgate-container {
     text-align: center;
 }
 
 h1 {
-    color: #33691e;
-    margin-bottom: 20px;
+    color: #2b6b4e;
+    margin-top: 20px;
+}
+
+form {
+    margin-top: 20px;
 }
 
 input[type="text"] {
     padding: 10px;
-    border: 2px solid #8bc34a;
-    border-radius: 8px;
-    width: 220px;
+    width: 70%;
+    max-width: 300px;
+    border: 2px solid #2b6b4e;
+    border-radius: 5px;
     font-size: 16px;
-    margin-bottom: 10px;
 }
 
 button {
+    margin-top: 10px;
     padding: 10px 20px;
-    background-color: #7cb342;
+    background-color: #2b6b4e;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
 }
 
 button:hover {
-    background-color: #689f38;
+    background-color: #1f4c38;
 }
 
 #mensagem {
-    color: #d32f2f;
-    margin-top: 10px;
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #d35400;
     font-weight: bold;
 }
 
-canvas {
+#confete {
     position: fixed;
     top: 0;
     left: 0;
