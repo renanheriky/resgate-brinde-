@@ -3,21 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resgate seu Brinde - Juqui-explorer</title>
+    <title>Resgate Seu Brinde - Juqui-Explorer</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>🎁 Resgate seu Brinde!</h1>
-        <p>Digite seu nome abaixo e mostre esta tela no nosso stand para retirar seu brinde.</p>
-
-        <form id="brindeForm">
-            <input type="text" id="nome" placeholder="Digite seu nome" required>
-            <button type="submit">Resgatar Brinde</button>
-        </form>
-
-        <div id="mensagem"></div>
+    <div class="header">
+        <img src="imagens/juquitiba.jpg" alt="Juquitiba Terra de Muitas Águas">
+        <h1>🎁 Parabéns! Você está prestes a garantir seu brinde! 🎉</h1>
     </div>
+
+    <div class="mascote">
+        <img src="imagens/juka.png" alt="Juka o Mascote">
+    </div>
+
+    <form id="brindeForm">
+        <label for="nome">Digite seu nome:</label>
+        <input type="text" id="nome" name="nome" required placeholder="Exemplo: Maria Silva">
+        <button type="submit">Resgatar Brinde</button>
+    </form>
+
+    <div id="mensagem"></div>
+
+    <canvas id="confettiCanvas"></canvas>
 
     <script src="script.js"></script>
 </body>
