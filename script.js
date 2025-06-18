@@ -1,15 +1,6 @@
-let contador = 50;
-let nomes = [];
-
 document.addEventListener('DOMContentLoaded', () => {
-    atualizarContador();
-    gerarQRCode('https://seusite.com');  // Altere aqui para o link final
     criarFolhas();
 });
-
-function atualizarContador() {
-    document.getElementById('contador').innerText = contador;
-}
 
 function resgatar() {
     const nome = document.getElementById('nome').value.trim();
@@ -18,28 +9,18 @@ function resgatar() {
 
     if (nome === "") {
         msg.style.display = 'block';
-        msg.innerHTML = "⚠️ Por favor, digite seu nome antes de resgatar.";
+        msg.innerHTML = "⚠️ Por favor, digite seu nome para continuar.";
         return;
     }
 
-    if (contador <= 0) {
-        msg.style.display = 'block';
-        msg.innerHTML = "❌ Infelizmente os brindes acabaram.";
-        return;
-    }
-
-    contador--;
-    nomes.push(nome);
-    console.log('Nomes registrados:', nomes);
-
-    atualizarContador();
     msg.style.display = 'block';
-    msg.innerHTML = `🎉 Parabéns, <strong>${nome}</strong>! Seu brinde foi reservado! Passe no nosso stand!`;
+    msg.innerHTML = `🎉 Obrigado, <strong>${nome}</strong>! Seu brinde está garantido!`;
+
     som.play();
     dispararConfete();
 }
 
-// Efeito de confete
+// Efeito de Confete
 function dispararConfete() {
     const canvas = document.getElementById('confete');
     const ctx = canvas.getContext('2d');
@@ -48,7 +29,7 @@ function dispararConfete() {
 
     let confetes = [];
 
-    for (let i = 0; i < 150; i++) {
+    for (let i = 0; i < 120; i++) {
         confetes.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height - canvas.height,
@@ -87,18 +68,7 @@ function dispararConfete() {
     setTimeout(() => clearInterval(animacao), 3000);
 }
 
-// QR Code
-function gerarQRCode(link) {
-    const qr = new QRious({
-        element: document.getElementById('qrCanvas'),
-        value: link,
-        size: 180,
-        background: 'rgba(255,255,255,0.8)',
-        foreground: '#2E7D32'
-    });
-}
-
-// Efeito de folhas caindo
+// Folhas caindo
 function criarFolhas() {
     for (let i = 0; i < 15; i++) {
         const folha = document.createElement('img');
