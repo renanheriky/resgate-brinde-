@@ -1,59 +1,72 @@
-function resgatar() {
+document.getElementById('brindeForm').addEventListener('submit', function(e) {
+    e.preventDefault();
     const nome = document.getElementById('nome').value.trim();
     const mensagem = document.getElementById('mensagem');
 
     if (nome === "") {
-        mensagem.textContent = "Por favor, digite seu nome para resgatar o brinde.";
-        return;
+        mensagem.innerHTML = "⚠️ Por favor, digite seu nome para resgatar o brinde.";
+        mensagem.style.color = "#d35400";
+    } else {
+        mensagem.innerHTML = `🎉 Obrigado, ${nome}! Mostre essa tela no nosso estande para garantir seu brinde especial! 🎁`;
+        mensagem.style.color = "#2b6b4e";
+        startConfetti();
     }
+});
 
-    mensagem.textContent = ""; // Limpa a mensagem se estava preenchida antes
-    iniciarConfete();
-}
+// Confete com Canvas
+let canvas = document.getElementById('confete');
+let ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-let confetes = [];
-let animando = false;
+let particles = [];
 
-function iniciarConfete() {
-    const canvas = document.getElementById('confete');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    confetes = [];
-    for (let i = 0; i < 100; i++) {
-        confetes.push({
+function createConfetti() {
+    for (let i = 0; i < 150; i++) {
+        particles.push({
             x: Math.random() * canvas.width,
             y: Math.random() * -canvas.height,
-            r: Math.random() * 5 + 2,
-            color: gerarCorVerde(),
-            speed: Math.random() * 3 + 2
+            r: Math.random() * 6 + 2,
+            d: Math.random() * 150,
+            color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+            tilt: Math.floor(Math.random() * 10) - 5
         });
     }
+}
 
-    if (!animando) {
-        animando = true;
-        animarConfete(ctx, canvas);
+function drawConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(function(p) {
+        ctx.beginPath();
+        ctx.lineWidth = p.r / 2;
+        ctx.strokeStyle = p.color;
+        ctx.moveTo(p.x + p.tilt, p.y);
+        ctx.lineTo(p.x, p.y + p.tilt + p.r);
+        ctx.stroke();
+    });
+    updateConfetti();
+}
+
+function updateConfetti() {
+    for (let i = 0; i < particles.length; i++) {
+        let p = particles[i];
+        p.y += Math.cos(p.d) + 1 + p.r / 2;
+        p.x += Math.sin(p.d) * 2;
+
+        if (p.y > canvas.height) {
+            particles[i] = {
+                x: Math.random() * canvas.width,
+                y: -10,
+                r: p.r,
+                d: p.d,
+                color: p.color,
+                tilt: p.tilt
+            };
+        }
     }
 }
 
-function gerarCorVerde() {
-    const tonsVerde = ['#aed581', '#9ccc65', '#8bc34a', '#7cb342', '#689f38'];
-    return tonsVerde[Math.floor(Math.random() * tonsVerde.length)];
-}
-
-function animarConfete(ctx, canvas) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    confetes.forEach(c => {
-        ctx.beginPath();
-        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
-        ctx.fillStyle = c.color;
-        ctx.fill();
-        c.y += c.speed;
-        if (c.y > canvas.height) {
-            c.y = 0;
-            c.x = Math.random() * canvas.width;
-        }
-    });
-    requestAnimationFrame(() => animarConfete(ctx, canvas));
+function startConfetti() {
+    createConfetti();
+    setInterval(drawConfetti, 20);
 }
