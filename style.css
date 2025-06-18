@@ -1,62 +1,63 @@
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom, #cfe8d5, #ffffff);
+    background: linear-gradient(135deg, #4CAF50, #81C784);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
     margin: 0;
-    padding: 0;
     text-align: center;
 }
 
-.header img {
-    width: 100%;
-    max-height: 250px;
-    object-fit: cover;
+.container {
+    background: rgba(0,0,0,0.3);
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
 
 h1 {
-    color: #2b6b4e;
-    margin-top: 10px;
+    font-size: 2em;
+    margin-bottom: 10px;
 }
 
-.mascote img {
-    width: 150px;
-    margin: 20px auto;
-}
-
-form {
-    margin-top: 20px;
+p {
+    margin-bottom: 20px;
 }
 
 input[type="text"] {
     padding: 10px;
-    width: 70%;
+    border-radius: 8px;
+    border: none;
+    width: 80%;
     max-width: 300px;
-    border: 2px solid #2b6b4e;
-    border-radius: 5px;
 }
 
 button {
-    margin-top: 10px;
+    background: #FFC107;
+    color: #333;
     padding: 10px 20px;
-    background-color: #2b6b4e;
-    color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background 0.3s;
 }
 
 button:hover {
-    background-color: #1f4c38;
+    background: #FFA000;
 }
 
 #mensagem {
-    margin-top: 20px;
-    font-size: 1.2em;
-    color: #d35400;
+    margin-top: 15px;
+    font-size: 1.1em;
+    display: none;
 }
 
-#confettiCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    pointer-events: none;
+img {
+    width: 120px;
+    margin-bottom: 15px;
 }
