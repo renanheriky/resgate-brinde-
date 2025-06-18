@@ -8,21 +8,23 @@
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(to bottom, #e8f5e9, #c8e6c9);
             font-family: 'Arial', sans-serif;
+            color: #1b5e20;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
             min-height: 100vh;
-            color: #1b5e20;
             overflow-x: hidden;
-            animation: fadeIn 1s ease-out;
+            background: linear-gradient(-45deg, #e8f5e9, #c8e6c9, #a5d6a7, #81c784);
+            background-size: 400% 400%;
+            animation: gradient 10s ease infinite;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @keyframes gradient {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
         }
 
         h1 {
@@ -39,6 +41,20 @@
             border: 2px solid #388e3c;
             border-radius: 8px;
             font-size: 1em;
+            transition: 0.3s;
+        }
+
+        input.shake {
+            animation: shake 0.4s;
+            border-color: #d32f2f;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
         }
 
         button {
@@ -50,11 +66,11 @@
             border-radius: 8px;
             font-size: 1em;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: transform 0.2s, background-color 0.3s ease;
         }
 
-        button:hover {
-            background-color: #388e3c;
+        button:active {
+            transform: scale(1.1);
         }
 
         #mensagem {
@@ -63,6 +79,9 @@
             font-weight: bold;
             padding: 0 20px;
             text-align: center;
+            text-shadow: 1px 1px 2px #a5d6a7;
+            opacity: 0;
+            transition: opacity 1s ease;
         }
 
         .confete {
@@ -71,8 +90,7 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background-color: green;
-            opacity: 0.8;
+            opacity: 0.9;
             animation: cair linear infinite;
             z-index: 999;
         }
@@ -105,39 +123,59 @@
 
     <input type="text" id="nome" placeholder="Exemplo: Maria Silva">
 
-    <button onclick="resgatar()">🎁 Resgatar</button>
+    <button onclick="resgatar()">Resgatar</button>
 
     <div id="mensagem"></div>
 
     <audio id="sucesso-audio" src="sucesso.mp3" preload="auto"></audio>
+    <audio id="erro-audio">
+        <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" type="audio/ogg">
+    </audio>
 
     <script>
         let confeteAtivo = false;
+        let intervaloConfete;
 
         function resgatar() {
-            const nome = document.getElementById('nome').value.trim();
+            const nomeInput = document.getElementById('nome');
+            const nome = nomeInput.value.trim();
             const mensagemDiv = document.getElementById('mensagem');
-            const audio = document.getElementById('sucesso-audio');
+            const sucessoAudio = document.getElementById('sucesso-audio');
+            const erroAudio = document.getElementById('erro-audio');
 
             if (nome === "") {
                 mensagemDiv.innerHTML = "⚠️ Por favor, preencha o campo com seu nome.";
-                mensagemDiv.style.color = "#d32f2f"; // Vermelho para alerta
+                mensagemDiv.style.color = "#d32f2f";
+                mensagemDiv.style.opacity = 1;
+                nomeInput.classList.add('shake');
+
+                if (navigator.vibrate) {
+                    navigator.vibrate(150);
+                }
+
+                erroAudio.play();
+
+                setTimeout(() => {
+                    nomeInput.classList.remove('shake');
+                }, 400);
                 return;
             }
 
-            mensagemDiv.style.color = "#1b5e20"; // Volta para verde
+            mensagemDiv.style.color = "#1b5e20";
             mensagemDiv.innerHTML = `
                 🎉 Parabéns, ${nome}! Você acabou de resgatar seu brinde! 🎉<br><br>
-                Mostre esta tela para um dos nossos colaboradores para receber seu brinde.
+                Mostre esta tela para um dos nossos colaboradores para receber seu brinde.<br><br>
+                Obrigado por participar do nosso evento! 🌱
             `;
+            mensagemDiv.style.opacity = 1;
 
             if (navigator.vibrate) {
                 navigator.vibrate(200);
             }
 
-            if (audio) {
-                audio.play().catch(function(e) {
-                    console.log("Som não pôde ser reproduzido automaticamente.");
+            if (sucessoAudio) {
+                sucessoAudio.play().catch(function(e) {
+                    console.log("Som de sucesso não pôde ser reproduzido automaticamente.");
                 });
             }
 
@@ -148,16 +186,18 @@
         }
 
         function iniciarConfete() {
-            setInterval(() => {
+            intervaloConfete = setInterval(() => {
                 const confete = document.createElement('div');
                 confete.classList.add('confete');
 
                 const tonsVerde = ['#2e7d32', '#4caf50', '#81c784', '#66bb6a', '#a5d6a7'];
+                const formas = ['50%', '0%', '0% 50% 50% 0%'];  // Bolinha, quadrado e triângulo (simulado)
                 confete.style.backgroundColor = tonsVerde[Math.floor(Math.random() * tonsVerde.length)];
                 confete.style.left = Math.random() * 100 + "vw";
                 const tamanho = Math.random() * 8 + 4;
                 confete.style.width = tamanho + "px";
                 confete.style.height = tamanho + "px";
+                confete.style.borderRadius = formas[Math.floor(Math.random() * formas.length)];
                 confete.style.animationDuration = (Math.random() * 3 + 2) + "s";
 
                 document.body.appendChild(confete);
