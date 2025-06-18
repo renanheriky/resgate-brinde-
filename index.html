@@ -2,23 +2,112 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resgate Seu Brinde - Juqui-Explorer</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Resgate seu brinde</title>
+    <style>
+        body {
+            background-color: #e0f7e9; /* verde claro */
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+            color: #2e7d32; /* verde mais escuro */
+        }
+
+        h1 {
+            color: #1b5e20; /* verde escuro */
+            font-size: 2.5em;
+        }
+
+        input {
+            padding: 10px;
+            width: 250px;
+            border: 2px solid #2e7d32;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 1em;
+        }
+
+        button:hover {
+            background-color: #388e3c;
+        }
+
+        #mensagem {
+            margin-top: 30px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .confete {
+            position: fixed;
+            top: -10px;
+            width: 10px;
+            height: 10px;
+            background-color: green;
+            border-radius: 50%;
+            animation: queda 5s linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes queda {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
 </head>
 <body>
 
-    <div class="resgate-container">
-        <h1>🎁 Resgate Seu Brinde 🎉</h1>
-        <form id="brindeForm">
-            <input type="text" id="nome" name="nome" placeholder="Digite seu nome:" required>
-            <button type="submit">Resgatar Brinde</button>
-        </form>
-        <p id="mensagem"></p>
-    </div>
+    <h1>Resgate seu brinde</h1>
 
-    <canvas id="confete"></canvas>
+    <input type="text" id="nome" placeholder="Exemplo: Maria Silva">
+    <br>
+    <button onclick="resgatar()">Resgatar</button>
 
-    <script src="script.js"></script>
+    <div id="mensagem"></div>
+
+    <script>
+        function resgatar() {
+            const nome = document.getElementById('nome').value.trim();
+            if (nome !== "") {
+                document.getElementById('mensagem').innerHTML = `
+                    🎉 Parabéns, ${nome}! Você acabou de resgatar seu brinde 🎉<br><br>
+                    Mostre essa tela para um dos nossos colaboradores para resgatar seu brinde!
+                `;
+                iniciarConfete();
+            } else {
+                alert("Por favor, digite seu nome!");
+            }
+        }
+
+        function iniciarConfete() {
+            setInterval(() => {
+                const confete = document.createElement('div');
+                confete.classList.add('confete');
+
+                const cores = ['#2e7d32', '#4caf50', '#81c784', '#66bb6a', '#a5d6a7'];
+                confete.style.backgroundColor = cores[Math.floor(Math.random() * cores.length)];
+
+                confete.style.left = Math.random() * 100 + "vw";
+                confete.style.width = Math.random() * 8 + 4 + "px";
+                confete.style.height = confete.style.width;
+                confete.style.animationDuration = (Math.random() * 3 + 3) + "s";
+
+                document.body.appendChild(confete);
+
+                setTimeout(() => {
+                    confete.remove();
+                }, 7000);
+            }, 100);
+        }
+    </script>
+
 </body>
 </html>
