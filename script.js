@@ -7,7 +7,7 @@ document.getElementById('brindeForm').addEventListener('submit', function(e) {
         mensagem.innerHTML = "⚠️ Por favor, digite seu nome para resgatar o brinde.";
         mensagem.style.color = "#d35400";
     } else {
-        mensagem.innerHTML = `🎉 Obrigado, ${nome}! Mostre essa tela no nosso estande para garantir seu brinde especial! 🎁`;
+        mensagem.innerHTML = `🎉 Obrigado, ${nome}! Mostre essa tela no nosso estande para garantir seu brinde! 🎁`;
         mensagem.style.color = "#2b6b4e";
         startConfetti();
     }
