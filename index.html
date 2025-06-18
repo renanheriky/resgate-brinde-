@@ -17,6 +17,12 @@
             min-height: 100vh;
             color: #1b5e20;
             overflow-x: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         h1 {
@@ -82,7 +88,6 @@
             }
         }
 
-        /* Responsividade geral */
         @media (max-width: 600px) {
             h1 {
                 font-size: 1.8em;
@@ -100,9 +105,11 @@
 
     <input type="text" id="nome" placeholder="Exemplo: Maria Silva">
 
-    <button onclick="resgatar()">Resgatar</button>
+    <button onclick="resgatar()">🎁 Resgatar</button>
 
     <div id="mensagem"></div>
+
+    <audio id="sucesso-audio" src="sucesso.mp3" preload="auto"></audio>
 
     <script>
         let confeteAtivo = false;
@@ -110,18 +117,29 @@
         function resgatar() {
             const nome = document.getElementById('nome').value.trim();
             const mensagemDiv = document.getElementById('mensagem');
+            const audio = document.getElementById('sucesso-audio');
 
             if (nome === "") {
-                mensagemDiv.innerHTML = "Por favor, preencha o campo com seu nome.";
-                mensagemDiv.style.color = "#d32f2f"; // tom de vermelho para alerta
+                mensagemDiv.innerHTML = "⚠️ Por favor, preencha o campo com seu nome.";
+                mensagemDiv.style.color = "#d32f2f"; // Vermelho para alerta
                 return;
             }
 
-            mensagemDiv.style.color = "#1b5e20"; // volta para verde
+            mensagemDiv.style.color = "#1b5e20"; // Volta para verde
             mensagemDiv.innerHTML = `
                 🎉 Parabéns, ${nome}! Você acabou de resgatar seu brinde! 🎉<br><br>
                 Mostre esta tela para um dos nossos colaboradores para receber seu brinde.
             `;
+
+            if (navigator.vibrate) {
+                navigator.vibrate(200);
+            }
+
+            if (audio) {
+                audio.play().catch(function(e) {
+                    console.log("Som não pôde ser reproduzido automaticamente.");
+                });
+            }
 
             if (!confeteAtivo) {
                 iniciarConfete();
