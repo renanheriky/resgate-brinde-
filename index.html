@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resgate seu Brinde</title>
+    <title>Resgate Seu Brinde - Juqui-Explorer</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="resgate-container">
-        <h1>Resgate seu Brinde</h1>
-        <input type="text" id="nome" placeholder="Digite seu nome...">
-        <button onclick="resgatar()">Resgatar</button>
+        <h1>🎁 Resgate Seu Brinde 🎉</h1>
+        <form id="brindeForm">
+            <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo..." required>
+            <button type="submit">Resgatar Brinde</button>
+        </form>
         <p id="mensagem"></p>
     </div>
 
